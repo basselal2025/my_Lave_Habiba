@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Heart</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 100vh;
+        background: radial-gradient(circle, #0a0014, #000);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      /* القلب */
+      .heart-container {
+        position: relative;
+        width: 300px;
+        animation: pulse 1.2s infinite;
+      }
+
+      svg {
+        width: 100%;
+        filter: drop-shadow(0 0 20px var(--color))
+          drop-shadow(0 0 60px var(--color));
+      }
+
+      /* النص */
+      .text {
+        position: absolute;
+        top: 52%; /* نزّلناه شوي عشان يكون بوسط القلب الحقيقي */
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: 70%; /* مهم جداً */
+        text-align: center;
+
+        color: white;
+        font-size: 24px; /* أصغر وأنسب */
+        font-weight: bold;
+        font-family: "Arial", sans-serif;
+
+        line-height: 1.3;
+
+        text-shadow:
+          0 0 5px white,
+          0 0 15px var(--color),
+          0 0 25px var(--color);
+      }
+      /* نبض */
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.15);
+        }
+      }
+
+      /* ضوء تحت */
+      .glow {
+        position: absolute;
+        bottom: -40px;
+        width: 200px;
+        height: 40px;
+        background: radial-gradient(circle, var(--color), transparent);
+        filter: blur(25px);
+      }
+
+      /* قلوب صغيرة */
+      .small-heart {
+        position: absolute;
+        color: var(--color);
+        font-size: 14px;
+        animation: float 6s linear infinite;
+      }
+
+      @keyframes float {
+        from {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(-600px);
+          opacity: 0;
+        }
+      }
+      @media (max-width: 600px) {
+        .heart-container {
+          width: 200px;
+        }
+
+        .text {
+          font-size: 18px;
+          width: 80%;
+        }
+
+        .glow {
+          width: 140px;
+        }
+
+        @keyframes pulse {
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.08);
+          }
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="heart-container">
+      <svg viewBox="0 0 512 512">
+        <!-- قلب حقيقي -->
+        <path
+          d="M256 464s-16-14-32-28C144 368 64 296 64 208 64 144 112 96 176 96c36 0 64 16 80 40 16-24 44-40 80-40 64 0 112 48 112 112 0 88-80 160-160 228-16 14-32 28-32 28z"
+          fill="var(--color)"
+        />
+      </svg>
+
+      <div class="text">Lave Habiba</div>
+      <div class="glow"></div>
+    </div>
+
+    <script>
+      const colors = [
+        "#ff00cc",
+        "#ff4d6d",
+        "#ff0080",
+        "#cc00ff",
+        "#ff66cc",
+        "#ff3399",
+      ];
+
+      let i = 0;
+
+      setInterval(() => {
+        document.documentElement.style.setProperty("--color", colors[i]);
+        i = (i + 1) % colors.length;
+      }, 1200);
+
+      // قلوب عشوائية
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "small-heart";
+        heart.innerHTML = "❤";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 3 + Math.random() * 3 + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 6000);
+      }, 300);
+    </script>
+  </body>
+</html>
